@@ -45,17 +45,17 @@ class ApiResponses:
 		self.cfg_ds = ds
 		self.cgen = cgen
 		self.tvrage_rqheaders = {
-								'Connection': 'keep-alive;',
-                                'Cache-Control': 'max-age=0',
-                                'Content-Type': 'application/json',
-                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-                                'Accept-Encoding': 'gzip,deflate,sdch',
-                                'Accept-Language': 'en-US,en;q=0.8',
-                                'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-                                'trakt-api-version': '2',
-                                'trakt-api-key': ''
-								 }
+					'Connection': 'keep-alive;',
+                                        'Cache-Control': 'max-age=0',
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+                                        'Accept-Encoding': 'gzip,deflate,sdch',
+                                        'Accept-Language': 'en-US,en;q=0.8',
+                                        'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+                                        'trakt-api-version': '2',
+                                        'trakt-api-key': ''
+                                        }
 		if(conf is not None):
 			self.timeout = conf[0]['timeout']
 			self.cfg= conf	 		
@@ -285,7 +285,7 @@ class ApiResponses:
         data = request.json()
         parsed_data["showtitle"] = data[0]["show"]["title"]
         return parsed_data
-
+        
 	#~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 	def generate_tsearch_nabresponse(self):
