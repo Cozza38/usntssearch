@@ -45,14 +45,16 @@ class ApiResponses:
 		self.cfg_ds = ds
 		self.cgen = cgen
 		self.tvrage_rqheaders = {
-								'Connection': 'keep-alive;' ,
-								'Cache-Control': 'max-age=0',
-								'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-								'User-Agent': 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.52 Safari/537.17',
-								'Referer': 'http://services.tvrage.com/info.php?page=main',
-								'Accept-Encoding': 'gzip,deflate,sdch',
-								'Accept-Language': 'en-US,en;q=0.8',
-								'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3'
+								'Connection': 'keep-alive;',
+                                'Cache-Control': 'max-age=0',
+                                'Content-Type': 'application/json',
+                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+                                'Accept-Encoding': 'gzip,deflate,sdch',
+                                'Accept-Language': 'en-US,en;q=0.8',
+                                'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+                                'trakt-api-version': '2',
+                                'trakt-api-key': ''
 								 }
 		if(conf is not None):
 			self.timeout = conf[0]['timeout']
@@ -274,33 +276,15 @@ class ApiResponses:
 	#~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 
-	def tvrage_getshowinfo(self, rid ):	
-		parsed_data = {'showtitle': ''}
+	def tvrage_getshowinfo(self, rid):
+        parsed_data = {'showtitle': ''}
 
-		url_tvrage = 'http://www.tvrage.com/feeds/showinfo.php'
-		urlParams = dict( sid=rid )			
-		#~ loading
-		try:
-			http_result = requests.get(url=url_tvrage, params=urlParams, verify=False, timeout=self.timeout,  headers=self.tvrage_rqheaders)
-		except Exception as e:
-			print e
-			log.critical(str(e))
-			return parsed_data
-		
-		data = http_result.text
-		#~ parsing
-		try:
-			tree = ET.fromstring(data.encode('utf-8'))
-		except Exception as e:
-			print e
-			log.critical(str(e))
-			return parsed_data
-
-		showtitle = tree.find("showname")	
-		if(showtitle is not None):
-			parsed_data['showtitle'] = showtitle.text
-		
-		return parsed_data
+        url_tvrage = 'https://api-v2launch.trakt.tv/search'
+        urlParams = {'id_type': 'tvrage', 'id': rid}
+        request = requests.get(url=url_tvrage, params=urlParams, timeout=self.timeout, headers=self.tvrage_rqheaders)
+        data = request.json()
+        parsed_data["showtitle"] = data[0]["show"]["title"]
+        return parsed_data
 
 	#~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
